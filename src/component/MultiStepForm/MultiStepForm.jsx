@@ -1,92 +1,67 @@
-import React, { useState } from "react";
-import { Steps } from "antd";
-import MultiStepFormContext from "./MultiStepFormContext";
-import Details from "./Details";
-import Address from "./Address";
-import AvatarUpload from "./AvatarUpload";
-import PasswordForm from "./PasswordForm";
-import Review from "./Review";
+// MultiStepForm.js
 
-const { Step } = Steps;
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateFirstName, updateLastName, updateEmail, updatePassword } from '../actions';
 
-const detailsInitialState = {
-  name: "",
-  lastName: "",
-  email: "",
-};
-
-const addressInitialState = {
-  city: "",
-  street: "",
-  house: "",
-};
-
-const avatarUploadInitialState = {
-  avatar: null,
-};
-
-const renderStep = (step) => {
-  switch (step) {
-    case 0:
-      return <Details />;
-    case 1:
-      return <Address />;
-    case 2:
-      return <AvatarUpload />;
-    case 3:
-      return <PasswordForm />;
-    case 4:
-      return <Review />;
-    default:
-      return null;
-  }
-};
-
-const MultiStepForm = () => {
-  const [details, setDetails] = useState(detailsInitialState);
-  const [address, setAddress] = useState(addressInitialState);
-  const [avatarUpload, setAvatarUpload] = useState(avatarUploadInitialState);
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const next = () => {
-    if (currentStep === 4) {
-      // Save the form data
-      console.log("Form submitted:", { details, address, avatarUpload });
-      // Reset the form state
-      setCurrentStep(0);
-      setDetails(detailsInitialState);
-      setAddress(addressInitialState);
-      setAvatarUpload(avatarUploadInitialState);
-      return;
+class MultiStepForm extends Component {
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case 'firstName':
+        this.props.updateFirstName(value);
+        break;
+      case 'lastName':
+        this.props.updateLastName(value);
+        break;
+      case 'email':
+        this.props.updateEmail(value);
+        break;
+      case 'password':
+        this.props.updatePassword(value);
+        break;
+      default:
+        break;
     }
-    setCurrentStep(currentStep + 1);
   };
 
-  const prev = () => setCurrentStep(currentStep - 1);
+  render() {
+    const { firstName, lastName, email, password } = this.props;
+    return (
+      <form>
+        <label>
+          First Name:
+          <input type="text" name="firstName" value={firstName} onChange={this.handleInputChange} />
+        </label>
+        <label>
+          Last Name:
+          <input type="text" name="lastName" value={lastName} onChange={this.handleInputChange} />
+        </label>
+        <label>
+          Email:
+          <input type="email" name="email" value={email} onChange={this.handleInputChange} />
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" value={password} onChange={this.handleInputChange} />
+        </label>
+      </form>
+    );
+  }
+}
 
-  return (
-    <MultiStepFormContext.Provider
-      value={{
-        details,
-        setDetails,
-        address,
-        setAddress,
-        avatarUpload,
-        setAvatarUpload,
-        next,
-        prev,
-      }}
-    >
-      <Steps current={currentStep}>
-        <Step title="Fill in your details" />
-        <Step title="Address details" />
-        <Step title="Avatar" />
-        <Step title="Set Password" />
-        <Step title="Review and Save" />
-      </Steps>
-      <main>{renderStep(currentStep)}</main>
-    </MultiStepFormContext.Provider>
-  );
+const mapStateToProps = (state) => ({
+  firstName: state.firstName,
+  lastName: state.lastName,
+  email: state.email,
+  password: state.password,
+});
+
+const mapDispatchToProps = {
+  updateFirstName,
+  updateLastName,
+  updateEmail,
+  updatePassword,
 };
 
-export default MultiStepForm;
+export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
