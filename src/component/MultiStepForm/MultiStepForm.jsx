@@ -188,89 +188,133 @@
 
 // export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
 
-import React, { useState } from "react";
-import { Steps } from "antd";
-import MultiStepFormContext from "./MultiStepFormContext";
-import { connect } from "react-redux";
-import Details from "./Details";
-import Address from "./Address";
-import AvatarUpload from "./AvatarUpload";
-import PasswordForm from "./PasswordForm";
-import Review from "./Review";
+// import React, { useState } from "react";
+// import { Steps } from "antd";
+// import MultiStepFormContext from "./MultiStepFormContext";
+// import { connect } from "react-redux";
+// import Details from "./Details";
+// import Address from "./Address";
+// import AvatarUpload from "./AvatarUpload";
+// import PasswordForm from "./PasswordForm";
+// import Review from "./Review";
 
-const { Step } = Steps;
+// const { Step } = Steps;
 
-const MultiStepForm = ({ userDetails, setUserDetails }) => {
-const [currentStep, setCurrentStep] = useState(0);
+// const MultiStepForm = ({ userDetails, setUserDetails }) => {
+// const [currentStep, setCurrentStep] = useState(0);
 
-const next = () => {
-if (currentStep === 4) {
-// Save the form data
-console.log("Form submitted:", userDetails);
-// Reset the form state
-setCurrentStep(0);
-setUserDetails({
-name: "",
-lastName: "",
-email: "",
-city: "",
-street: "",
-house: "",
-avatar: null,
-password: "",
-});
-return;
+// const next = () => {
+// if (currentStep === 4) {
+// // Save the form data
+// console.log("Form submitted:", userDetails);
+// // Reset the form state
+// setCurrentStep(0);
+// setUserDetails({
+// name: "",
+// lastName: "",
+// email: "",
+// city: "",
+// street: "",
+// house: "",
+// avatar: null,
+// password: "",
+// });
+// return;
+// }
+// setCurrentStep(currentStep + 1);
+// };
+
+// const prev = () => setCurrentStep(currentStep - 1);
+
+// const renderStep = (step) => {
+// switch (step) {
+// case 0:
+// return <Details />;
+// case 1:
+// return <Address />;
+// case 2:
+// return <AvatarUpload />;
+// case 3:
+// return <PasswordForm />;
+// case 4:
+// return <Review />;
+// default:
+// return null;
+// }
+// };
+
+// return (
+// <MultiStepFormContext.Provider
+// value={{
+// userDetails,
+// setUserDetails,
+// next,
+// prev,
+// }}
+// >
+// <Steps current={currentStep}>
+// <Step title="Fill in your details" />
+// <Step title="Address details" />
+// <Step title="Avatar" />
+// <Step title="Set Password" />
+// <Step title="Review and Save" />
+// </Steps>
+// <main>{renderStep(currentStep)}</main>
+// </MultiStepFormContext.Provider>
+// );
+// };
+
+// const mapStateToProps = (state) => ({
+// userDetails: state.userDetails,
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+// setUserDetails: (userDetails) =>
+// dispatch({ type: "SET_USER_DETAILS", payload: userDetails }),
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
+
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Details from './Details';
+import Address from './Address';
+import AvatarUpload from './AvatarUpload';
+import PasswordForm from './PasswordForm';
+import Review from './Review';
+import * as actions from '../../redux/actions';
+
+class MultiStepForm extends Component {
+  render() {
+    const { step, actions } = this.props;
+    switch (step) {
+      case 1:
+        return <Details />;
+      case 2:
+        return <Address />;
+      case 3:
+        return <AvatarUpload />;
+      case 4:
+        return <PasswordForm />;
+      case 5:
+        return <Review />;
+      default:
+        return <Details />;
+    }
+  }
 }
-setCurrentStep(currentStep + 1);
+
+const mapStateToProps = state => {
+  return {
+    step: state.registration.step,
+  };
 };
 
-const prev = () => setCurrentStep(currentStep - 1);
-
-const renderStep = (step) => {
-switch (step) {
-case 0:
-return <Details />;
-case 1:
-return <Address />;
-case 2:
-return <AvatarUpload />;
-case 3:
-return <PasswordForm />;
-case 4:
-return <Review />;
-default:
-return null;
-}
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
 };
-
-return (
-<MultiStepFormContext.Provider
-value={{
-userDetails,
-setUserDetails,
-next,
-prev,
-}}
->
-<Steps current={currentStep}>
-<Step title="Fill in your details" />
-<Step title="Address details" />
-<Step title="Avatar" />
-<Step title="Set Password" />
-<Step title="Review and Save" />
-</Steps>
-<main>{renderStep(currentStep)}</main>
-</MultiStepFormContext.Provider>
-);
-};
-
-const mapStateToProps = (state) => ({
-userDetails: state.userDetails,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-setUserDetails: (userDetails) =>
-dispatch({ type: "SET_USER_DETAILS", payload: userDetails }),
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
