@@ -6,14 +6,22 @@ import * as actions from '../../redux/actions';
 class Details extends Component {
   handleInputChange = event => {
     const { name, value } = event.target;
-    this.props.actions.setDetails(name, value);
+    if(name==='email'){
+        this.props.actions.setEmail(value);
+    }
+    if(name==='name'){
+        this.props.actions.setFirstName(value);
+    }
+    if(name==='lastName'){
+        this.props.actions.setLastName(value);
+    }
   };
 
   handleContinue = event => {
     event.preventDefault();
     const errors = this.validateFields();
     if (Object.keys(errors).length === 0) {
-      this.props.actions.nextStep();
+      this.props.actions.onNextStep();
     } else {
       this.props.actions.setErrors(errors);
     }
