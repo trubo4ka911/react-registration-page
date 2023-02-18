@@ -1,5 +1,3 @@
-import { NEXT_STEP, PREV_STEP, SET_FORM_DATA } from "./types";
-
 const initialState = {
   currentStep: 1,
   formData: {
@@ -8,23 +6,27 @@ const initialState = {
     confirmPassword: "",
     firstName: "",
     lastName: "",
-    phoneNumber: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "",
   },
 };
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
-    case NEXT_STEP:
+    case "NEXT_STEP":
       return {
         ...state,
         currentStep: action.payload,
       };
-    case PREV_STEP:
+    case "PREV_STEP":
       return {
         ...state,
         currentStep: action.payload,
       };
-    case SET_FORM_DATA:
+    case "SET_FORM_DATA":
       return {
         ...state,
         formData: action.payload,

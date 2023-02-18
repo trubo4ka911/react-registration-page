@@ -1,22 +1,20 @@
-import { NEXT_STEP, PREV_STEP, SET_FORM_DATA } from "./actionTypes";
-
-export const nextStep = (currentStep) => {
+export const nextStep = (step) => {
   return {
-    type: NEXT_STEP,
-    currentStep: currentStep,
+    type: "NEXT_STEP",
+    payload: step,
   };
 };
 
-export const prevStep = (currentStep) => {
+export const prevStep = (step) => {
   return {
-    type: PREV_STEP,
-    currentStep: currentStep,
+    type: "PREV_STEP",
+    payload: step,
   };
 };
 
-export const setFormData = (formData) => {
+export const setFormData = (data) => {
   return {
-    type: SET_FORM_DATA,
-    formData: formData,
+    type: "SET_FORM_DATA",
+    payload: data,
   };
 };

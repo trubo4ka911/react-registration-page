@@ -70,45 +70,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { nextStep, prevStep, setFormData } from '../redux/formActions';
+import { nextStep, prevStep, setFormData } from '../actions/formActions';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import Success from './Success';
 
 class MultiStepForm extends Component {
-_next = () => {
-const { nextStep } = this.props;
-let currentStep = this.props.currentStep;
-currentStep = currentStep >= 2 ? 3 : currentStep + 1;
-nextStep(currentStep);
-};
-
-_prev = () => {
-const { prevStep } = this.props;
-let currentStep = this.props.currentStep;
-currentStep = currentStep <= 1 ? 1 : currentStep - 1;
-prevStep(currentStep);
-};
-
 render() {
-const { currentStep } = this.props;
+const { currentStep, formData, nextStep, prevStep, setFormData } = this.props;
 
 switch (currentStep) {
   case 1:
-    return <StepOne nextStep={this._next} />;
+    return (
+      <StepOne
+        nextStep={nextStep}
+        formData={formData}
+        setFormData={setFormData}
+      />
+    );
   case 2:
     return (
       <StepTwo
-        nextStep={this._next}
-        prevStep={this._prev}
+        nextStep={nextStep}
+        prevStep={prevStep}
+        formData={formData}
+        setFormData={setFormData}
       />
     );
   case 3:
     return (
       <StepThree
-        nextStep={this._next}
-        prevStep={this._prev}
+        nextStep={nextStep}
+        prevStep={prevStep}
+        formData={formData}
+        setFormData={setFormData}
       />
     );
   case 4:
@@ -121,19 +117,17 @@ switch (currentStep) {
 
 const mapStateToProps = state => {
 return {
-currentStep: state.currentStep
-};
-};
+currentStep: state.currentStep,
+formData: state.formData
+}
+}
 
 const mapDispatchToProps = dispatch => {
-return bindActionCreators(
-{
+return bindActionCreators({
 nextStep,
 prevStep,
 setFormData
-},
-dispatch
-);
-};
+}, dispatch);
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
