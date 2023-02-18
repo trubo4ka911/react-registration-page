@@ -1,39 +1,50 @@
+import { SET_DETAILS, SET_STEP, SET_ERRORS, SUBMIT_FORM } from "./actions";
+
 const initialState = {
-  email: "",
-  password: "",
-  confirmPassword: "",
-  firstName: "",
+  name: "",
   lastName: "",
-  gender: "",
-  country: "",
+  email: "",
+  city: "",
+  street: "",
+  house: "",
+  avatar: null,
   step: 1,
   errors: {},
-  submitted: false,
 };
 
-export default function registrationReducer(state = initialState, action) {
+const registrationReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DETAILS:
       return {
         ...state,
-        [action.payload.name]: action.payload.value,
+        [action.payload.field]: action.payload.value,
       };
     case SET_STEP:
       return {
         ...state,
-        step: action.payload.step,
+        step: state.step + action.payload,
       };
     case SET_ERRORS:
       return {
         ...state,
-        errors: action.payload.errors,
+        errors: action.payload,
       };
     case SUBMIT_FORM:
       return {
         ...state,
-        submitted: true,
+        step: 1,
+        email: "",
+        password: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        gender: "",
+        country: "",
+        errors: {},
       };
     default:
       return state;
   }
-}
+};
+
+export default registrationReducer;
