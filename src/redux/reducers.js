@@ -20,10 +20,7 @@ const registrationReducer = (state = initialState, action) => {
         [action.payload.field]: action.payload.value,
       };
     case SET_STEP:
-      return {
-        ...state,
-        step: state.step + action.payload,
-      };
+      return { ...state, step: action.payload };
     case SET_ERRORS:
       return {
         ...state,
