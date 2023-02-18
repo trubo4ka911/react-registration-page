@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Steps } from "antd";
 import MultiStepFormContext from "./MultiStepFormContext";
+import { connect } from "react-redux";
 import Details from "./Details";
 import Address from "./Address";
 import AvatarUpload from "./AvatarUpload";
