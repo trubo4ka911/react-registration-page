@@ -33,13 +33,13 @@ const registrationReducer = (state = initialState, action) => {
       return {
         ...state,
         step: 1,
-        email: "",
-        password: "",
-        confirmPassword: "",
-        firstName: "",
+        name: "",
         lastName: "",
-        gender: "",
-        country: "",
+        email: "",
+        city: "",
+        street: "",
+        house: "",
+        avatar: null,
         errors: {},
       };
     default:
