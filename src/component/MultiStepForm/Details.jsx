@@ -21,36 +21,35 @@ class Details extends Component {
 
   validateFields = () => {
     const errors = {};
-    const { email, password, confirmPassword } = this.props;
+    const { name, lastName, email } = this.props;
+    if (!name) {
+      errors.name = 'Name is required';
+    }
+    if (!lastName) {
+      errors.lastName = 'Last Name is required';
+    }
     if (!email) {
       errors.email = 'Email is required';
-    }
-    if (!password) {
-      errors.password = 'Password is required';
-    }
-    if (!confirmPassword) {
-      errors.confirmPassword = 'Confirm Password is required';
-    } else if (password !== confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
     }
     return errors;
   };
 
   render() {
-    const { email, password, confirmPassword, firstName, lastName, errors } = this.props;
+    const { name, lastName, email, errors } = this.props;
     return (
       <div>
         <h1>Registration Form</h1>
         <h2>Step 1: Enter Your Details</h2>
         <form>
           <div>
-            <label htmlFor="firstName">First Name:</label>
+            <label htmlFor="name">Name:</label>
             <input
               type="text"
-              name="firstName"
-              value={firstName}
+              name="name"
+              value={name}
               onChange={this.handleInputChange}
             />
+            {errors.name && <p>{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="lastName">Last Name:</label>
@@ -60,6 +59,7 @@ class Details extends Component {
               value={lastName}
               onChange={this.handleInputChange}
             />
+            {errors.lastName && <p>{errors.lastName}</p>}
           </div>
           <div>
             <label htmlFor="email">Email:</label>
@@ -71,26 +71,6 @@ class Details extends Component {
             />
             {errors.email && <p>{errors.email}</p>}
           </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={this.handleInputChange}
-            />
-            {errors.password && <p>{errors.password}</p>}
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={this.handleInputChange}
-            />
-            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-          </div>
           <button onClick={this.handleContinue}>Continue</button>
         </form>
       </div>
@@ -100,11 +80,9 @@ class Details extends Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.registration.email,
-    password: state.registration.password,
-    confirmPassword: state.registration.confirmPassword,
-    firstName: state.registration.firstName,
+    name: state.registration.name,
     lastName: state.registration.lastName,
+    email: state.registration.email,
     errors: state.registration.errors,
   };
 };
