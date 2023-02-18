@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { createRoot } from "react-dom";
+import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
-import MultiStepForm from "./component/MultiStepForm";
+import App from "./App";
+import thunk from "redux-thunk";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
-createRoot(document.getElementById("root")).render(
+ReactDOM.render(
   <Provider store={store}>
-    <MultiStepForm />
-  </Provider>
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
