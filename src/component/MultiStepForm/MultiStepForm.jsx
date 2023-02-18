@@ -70,7 +70,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { nextStep, prevStep, setFormData } from '../actions/formActions';
+import { nextStep, prevStep, setFormData } from '../../redux/formActions';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';

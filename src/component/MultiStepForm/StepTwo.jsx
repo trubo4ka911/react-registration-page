@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setFormData } from '../redux/formActions';
+import { setFormData } from '../../redux/formActions';
 
 class StepTwo extends Component {
 constructor(props) {
