@@ -15,7 +15,7 @@ const Review = ({ avatar, details, address, prev, actions }) => {
         <Col span={24}>
           <h1>Details</h1>
           <img src={avatar?.url} alt="Selected Avatar" />
-          <p>Name: {details.firstName}</p>
+          <p>Name: {details.name}</p>
           <p>Last Name: {details.lastName}</p>
           <p>Email: {details.email}</p>
         </Col>
