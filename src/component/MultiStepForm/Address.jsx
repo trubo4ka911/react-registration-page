@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { setAddress, nextStep, previousStep } from "../../redux/actions";
+import { setAddress } from "../../redux/actions";
 
-const Address = ({ address, setAddress, nextStep, previousStep }) => {
+const Address = ({ address, setAddress, previousStep, onNext }) => {
   const [city, setCity] = useState(address.city || "");
   const [street, setStreet] = useState(address.street || "");
-  const [house, setHouse] = useState(address.house || 1);
-  const [errors, setErrors] = useState({});
+  const [house, setHouse] = useState(address.house || "");
 
   const handleCityChange = (e) => {
     setCity(e.target.value);
@@ -17,44 +16,27 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
   };
 
   const handleHouseChange = (e) => {
-    setHouse(Number(e.target.value));
+    setHouse(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const errors = {};
-    if (!city) {
-      errors.city = "City is required";
-    }
-    if (!street) {
-      errors.street = "Street is required";
-    }
-    if (!house) {
-      errors.house = "House number is required";
-    }
-
-    if (Object.keys(errors).length === 0) {
-      setAddress({ city, street, house });
-      console.log("nextStep called from Address");
-      nextStep();
-    }
+    setAddress({ city, street, house });
+    onNext();
   };
 
   return (
     <div className={"details__wrapper"}>
       <form onSubmit={handleSubmit}>
-        <div className={`form__item ${errors.city && "input__error"}`}>
+        <div className={`form__item`}>
           <label>City *</label>
           <input type={"text"} value={city} onChange={handleCityChange} />
-          <p className={"error__feedback"}>{errors.city}</p>
         </div>
-        <div className={`form__item ${errors.street && "input__error"}`}>
+        <div className={`form__item`}>
           <label>Street *</label>
           <input type={"text"} value={street} onChange={handleStreetChange} />
-          <p className={"error__feedback"}>{errors.street}</p>
         </div>
-        <div className={`form__item ${errors.house && "input__error"}`}>
+        <div className={`form__item`}>
           <label>House number *</label>
           <input
             type="number"
@@ -62,9 +44,9 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
             value={house}
             onChange={handleHouseChange}
           />
-          <p className={"error__feedback"}>{errors.house}</p>
         </div>
         <div
+
           className={
             "form__item button__items d-flex justify-content-between"
           }
@@ -72,7 +54,7 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
           <button type={"button"} onClick={previousStep}>
             Back
           </button>
-          <button type="submit">Next</button>
+          <button type="submit" onClick={handleSubmit}>Next</button>
         </div>
       </form>
     </div>
@@ -81,8 +63,6 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   setAddress: (values) => dispatch(setAddress(values)),
-  nextStep: () => dispatch(nextStep()),
-  previousStep: () => dispatch(previousStep()),
 });
 
 const mapStateToProps = (state) => ({

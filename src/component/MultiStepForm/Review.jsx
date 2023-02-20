@@ -8,6 +8,11 @@ const Review = ({ avatar, details, address, prev, actions }) => {
   const handleConfirm = () => {
     actions.submitForm();
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+  };
+  
 
   return (
     <div className={"details__wrapper"}>

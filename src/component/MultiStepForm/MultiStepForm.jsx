@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Details from "./Details";
-import Address from "./Address";
+import ConnectedAddress from "./Address";
 import PasswordForm from "./PasswordForm";
 import AvatarUpload from "./AvatarUpload";
 import Review from "./Review";
@@ -12,21 +12,18 @@ const MultiStepForm = ({ step, nextStep, previousStep }) => {
     switch (step) {
       case 1:
         return <Details step={step} />;
-      case 2:
-        return <Address step={step} />;
-      case 3:
-        return <PasswordForm step={step} />;
-      case 4:
-        return <AvatarUpload step={step} />;
+        case 2:
+          return <ConnectedAddress step={step} onNext={nextStep} previousStep={previousStep} />;
+
+        case 3:
+          return <AvatarUpload step={step} onNext={nextStep} previousStep={previousStep} />;
+          case 4:
+            return <PasswordForm step={step} />;
       case 5:
         return <Review step={step} />;
       default:
         return <Details step={step} />;
     }
-  };
-
-  const handleNext = () => {
-    nextStep();
   };
 
   return (
@@ -37,7 +34,7 @@ const MultiStepForm = ({ step, nextStep, previousStep }) => {
           <button type={"button"} onClick={previousStep}>
             Back
           </button>
-          {step < 5 && <button type={"button"} onClick={handleNext}>
+          {step < 5 && <button type={"button"} onClick={nextStep}>
             Next
           </button>}
         </div>
