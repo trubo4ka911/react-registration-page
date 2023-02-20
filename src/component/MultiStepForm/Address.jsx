@@ -20,8 +20,9 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
     setHouse(Number(e.target.value));
   };
 
-  const handleNext = () => {
-    
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     const errors = {};
     if (!city) {
       errors.city = "City is required";
@@ -32,6 +33,7 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
     if (!house) {
       errors.house = "House number is required";
     }
+
     if (Object.keys(errors).length === 0) {
       setAddress({ city, street, house });
       console.log("nextStep called from Address");
@@ -41,38 +43,38 @@ const Address = ({ address, setAddress, nextStep, previousStep }) => {
 
   return (
     <div className={"details__wrapper"}>
-      <div className={`form__item ${errors.city && "input__error"}`}>
-        <label>City *</label>
-        <input type={"text"} value={city} onChange={handleCityChange} />
-        <p className={"error__feedback"}>{errors.city}</p>
-      </div>
-      <div className={`form__item ${errors.street && "input__error"}`}>
-        <label>Street *</label>
-        <input type={"text"} value={street} onChange={handleStreetChange} />
-        <p className={"error__feedback"}>{errors.street}</p>
-      </div>
-      <div className={`form__item ${errors.house && "input__error"}`}>
-        <label>House number *</label>
-        <input
-          type="number"
-          name="house"
-          value={house}
-          onChange={handleHouseChange}
-        />
-        <p className={"error__feedback"}>{errors.house}</p>
-      </div>
-      <div
-        className={
-          "form__item button__items d-flex justify-content-between"
-        }
-      >
-        <button type={"button"} onClick={previousStep}>
-          Back
-        </button>
-        <button type={"button"} onClick={handleNext}>
-          Next
-        </button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className={`form__item ${errors.city && "input__error"}`}>
+          <label>City *</label>
+          <input type={"text"} value={city} onChange={handleCityChange} />
+          <p className={"error__feedback"}>{errors.city}</p>
+        </div>
+        <div className={`form__item ${errors.street && "input__error"}`}>
+          <label>Street *</label>
+          <input type={"text"} value={street} onChange={handleStreetChange} />
+          <p className={"error__feedback"}>{errors.street}</p>
+        </div>
+        <div className={`form__item ${errors.house && "input__error"}`}>
+          <label>House number *</label>
+          <input
+            type="number"
+            name="house"
+            value={house}
+            onChange={handleHouseChange}
+          />
+          <p className={"error__feedback"}>{errors.house}</p>
+        </div>
+        <div
+          className={
+            "form__item button__items d-flex justify-content-between"
+          }
+        >
+          <button type={"button"} onClick={previousStep}>
+            Back
+          </button>
+          <button type="submit">Next</button>
+        </div>
+      </form>
     </div>
   );
 };

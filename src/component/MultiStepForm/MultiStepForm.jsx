@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Details from "./Details";
 import Address from "./Address";
@@ -8,24 +8,20 @@ import Review from "./Review";
 import { nextStep, previousStep } from "../../redux/actions";
 
 const MultiStepForm = ({ step, nextStep, previousStep }) => {
-  useEffect(() => {
-    console.log("step value in MultiStepForm: ", step);
-  }, [step]);
-
   const renderSwitch = (step) => {
     switch (step) {
       case 1:
-        return <Details />;
+        return <Details step={step} />;
       case 2:
-        return <Address />;
+        return <Address step={step} />;
       case 3:
-        return <PasswordForm />;
+        return <PasswordForm step={step} />;
       case 4:
-        return <AvatarUpload />;
+        return <AvatarUpload step={step} />;
       case 5:
-        return <Review />;
+        return <Review step={step} />;
       default:
-        return <Details />;
+        return <Details step={step} />;
     }
   };
 
@@ -57,11 +53,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   step: state.registration.step,
-  details: state.registration.details,
-  address: state.registration.address,
-  avatar: state.registration.avatar,
-  password: state.registration.password,
-  errors: state.registration.errors,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultiStepForm);
